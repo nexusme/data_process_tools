@@ -26,7 +26,7 @@ def category_embedder(df, target_col):
 
     X_encoded, encoders = ce.get_label_encoded_data(X)
 
-    # splitting the data into train and test
+    # splitting the data into train and Test_data
     X_train, X_test, y_train, y_test = train_test_split(X_encoded, y)
 
     embeddings = ce.get_embeddings(X_train, y_train, categorical_embedding_info=embedding_info, is_classification=True,

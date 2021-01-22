@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 import pandas as pd
 import numpy as np
 import categorical_embedder as ce
@@ -87,7 +89,7 @@ class SelectFeatures(object):
         true_list = list(selector.get_support())
         index = [i for i in range(len(true_list)) if true_list[i] == True]
         if len(index) == 0:
-            print('No features were selected: either the data is too noisy or the selection test too strict.')
+            print('No features were selected: either the data is too noisy or the selection Test_data too strict.')
             return df
         else:
             saved_columns = [list(X.columns)[i] for i in index]
@@ -535,7 +537,7 @@ class TransferFeatures(object):
             df_test_woe[column] = get_test_column
             df_woe_cut = df_woe_cut.append(get_new_cut_woe_result)
         # print('train\n', df_train_woe)
-        # print('test\n', df_test_woe)
+        # print('Test_data\n', df_test_woe)
         # print('woe_cut\n', df_woe_cut)
         # print('iv', iv_dict)
         x_train_sort = x_train.sort_index()
@@ -720,7 +722,7 @@ class TransferFeatures(object):
 
         X_encoded, encoders = ce.get_label_encoded_data(X)
 
-        # splitting the data into train and test
+        # splitting the data into train and Test_data
         X_train, X_test, y_train, y_test = train_test_split(X_encoded, y)
 
         embeddings = ce.get_embeddings(X_train, y_train, categorical_embedding_info=embedding_info,
@@ -884,23 +886,24 @@ class TransferFeatures(object):
         return encoded_train, encoded_test
 
     @staticmethod
-    def z_score(df_name, col):
+    def z_score(df_name, cols):
         """
         z-score编码
         Z值的量代表着原始分数和母体平均值之间的距离，是以标准差为单位计算。
         在原始分数低于平均值时Z则为负数，反之则为正数。
-        :param col: 待处理列名
+        :param cols: 待处理列名
         :param df_name: dataframe
         """
-        data = df_name[col]
-        print(data)
-        length = len(data)
-        total = sum(data)
-        ave = float(total) / length
-        list_data = list(data)
-        tmp_sum = sum([pow(list_data[i] - ave, 2) for i in range(length)])
-        tmp_sum = pow(float(tmp_sum) / length, 0.5)
-        for i in range(length):
-            list_data[i] = (list_data[i] - ave) / tmp_sum
-        df_name[col] = pd.DataFrame(list_data)
-        return df_name
+        df_new = pd.DataFrame()
+        for name in cols:
+            data = df_name[name]
+            length = len(data)
+            total = sum(data)
+            ave = float(total) / length
+            list_data = list(data)
+            tmp_sum = sum([pow(list_data[i] - ave, 2) for i in range(length)])
+            tmp_sum = pow(float(tmp_sum) / length, 0.5)
+            for i in range(length):
+                list_data[i] = (list_data[i] - ave) / tmp_sum
+            df_new[name] = pd.Series(list_data)
+        return df_new

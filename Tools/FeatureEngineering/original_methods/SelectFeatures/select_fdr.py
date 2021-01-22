@@ -9,7 +9,7 @@ def select_fdr(df, target_col):
     true_list = list(selector.get_support())
     index = [i for i in range(len(true_list)) if true_list[i] == True]
     if len(index) == 0:
-        print('No features were selected: either the data is too noisy or the selection test too strict.')
+        print('No features were selected: either the data is too noisy or the selection Test_data too strict.')
         return df
     else:
         saved_columns = [list(X.columns)[i] for i in index]

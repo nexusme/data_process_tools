@@ -410,7 +410,7 @@ def chi_square_merge(df_name, y_col_name, col_name):
         df_test_woe[column] = get_test_column
         df_woe_cut = df_woe_cut.append(get_new_cut_woe_result)
     # print('train\n', df_train_woe)
-    # print('test\n', df_test_woe)
+    # print('Test_data\n', df_test_woe)
     # print('woe_cut\n', df_woe_cut)
     # print('iv', iv_dict)
     x_train_sort = x_train.sort_index()

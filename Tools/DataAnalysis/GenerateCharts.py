@@ -115,7 +115,7 @@ class GenerateCharts(object):
         pp = PdfPages(path + "ROC.pdf")
         Y_test = np.array(Y_test)
         false_positive_rate, true_positive_rate, thresholds = roc_curve(Y_test, Y_score)
-        print('y test:', Y_test)
+        print('y Test_data:', Y_test)
         print('y_predict', Y_score)
         roc_auc = auc(false_positive_rate, true_positive_rate)
         plt.title('ROC')
