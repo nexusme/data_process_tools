@@ -3,6 +3,7 @@ from decimal import Decimal
 import pandas as pd
 import numpy as np
 import categorical_embedder as ce
+from scipy.stats import skew
 from sklearn.preprocessing import add_dummy_feature, PolynomialFeatures, Binarizer, LabelBinarizer, LabelEncoder, \
     MaxAbsScaler, MinMaxScaler, OneHotEncoder, StandardScaler
 
@@ -907,3 +908,17 @@ class TransferFeatures(object):
                 list_data[i] = (list_data[i] - ave) / tmp_sum
             df_new[name] = pd.Series(list_data)
         return df_new
+
+    @staticmethod
+    def log_transfer(df, col):
+        all_data = df[col]
+        numeric_feats = all_data.dtypes[all_data.dtypes != 'object'].index
+        skewed_feats = all_data[numeric_feats].apply(lambda x: skew(x.dropna()))
+        # compute skewness
+        # 计算偏度，找出df中数值型变量中，偏度大于0.75这个阈值的特征
+        skewed_feats = skewed_feats[skewed_feats > 0.75]
+        skewed_feats = skewed_feats.index
+        # 对偏度较大的特征数据进行Log1p()转换。
+        all_data[skewed_feats] = np.log1p(all_data[skewed_feats])
+        print(all_data)
+        return all_data
