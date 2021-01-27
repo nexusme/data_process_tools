@@ -30,10 +30,10 @@ class DataAnalysis(object):
         for name in cols:
             u = df[name].mean()  # 计算均值
             std = df[name].std()  # 计算标准差
-            print(list(stats.kstest(df[name], 'norm', (u, std)))[1])
+            # print(list(stats.kstest(df[name], 'norm', (u, std)))[1])
             if list(stats.kstest(df[name], 'norm', (u, std)))[1] > 0.05:
                 kept_columns.append(name)
-        print(kept_columns)
+        # print(kept_columns)
         return kept_columns
 
 # if __name__ == '__main__':
