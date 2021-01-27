@@ -915,7 +915,7 @@ class TransferFeatures(object):
         numeric_feats = all_data.dtypes[all_data.dtypes != 'object'].index
         skewed_feats = all_data[numeric_feats].apply(lambda x: skew(x.dropna()))
         # compute skewness
-        # 计算偏度，找出df中数值型变量中，偏度大于0.75这个阈值的特征
+        # 计算偏度，找出df中数值型变量中，偏度大于0.75这个阈值的特征,
         skewed_feats = skewed_feats[skewed_feats > 0.75]
         skewed_feats = skewed_feats.index
         # 对偏度较大的特征数据进行Log1p()转换。
